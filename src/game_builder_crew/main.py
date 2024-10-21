@@ -5,7 +5,7 @@ from game_builder_crew.crew import GameBuilderCrew
 import sys
 from crewai import LLM
 
-#llm = Ollama(model="openhermes")
+# In case you want to test it locally, deploy Ollama
 llm = LLM(model="ollama/openhermes", base_url="http://host.docker.internal:11434") 
 
 def run():
@@ -19,7 +19,7 @@ def run():
     inputs = {
         'game' :  examples['example3_snake']
     }
-    game= GameBuilderCrew().crew().kickoff(inputs=inputs)
+    game= GameBuilderCrew(llm).crew().kickoff(inputs=inputs)
 
     print("\n\n########################")
     print("## Here is the result")
@@ -40,7 +40,7 @@ def train():
         'game' : examples['example1_pacman']
     }
     try:
-        GameBuilderCrew().crew().train(n_iterations=int(sys.argv[1]), filename=sys.argv[2], inputs=inputs)
+        GameBuilderCrew(llm).crew().train(n_iterations=int(sys.argv[1]), filename=sys.argv[2], inputs=inputs)
 
     except Exception as e:
         raise Exception(f"An error occurred while training the crew: {e}")

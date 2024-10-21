@@ -3,17 +3,21 @@ from crewai import Agent, Crew, Process, Task
 from crewai.project import CrewBase, agent, crew, task
 
 @CrewBase
-class GameBuilderCrew:
+class GameBuilderCrew():
     """GameBuilder crew"""
     agents_config = 'config/agents.yaml'
     tasks_config = 'config/tasks.yaml'
+
+    def __init__(self, llm):
+        self.custom_llm = llm
 
     @agent
     def senior_engineer_agent(self) -> Agent:
         return Agent(
             config=self.agents_config['senior_engineer_agent'],
             allow_delegation=False,
-            verbose=True
+            verbose=True,
+            llm=self.custom_llm
         )
     
     @agent
@@ -21,7 +25,8 @@ class GameBuilderCrew:
         return Agent(
             config=self.agents_config['qa_engineer_agent'],
             allow_delegation=False,
-            verbose=True
+            verbose=True,
+            llm=self.custom_llm
         )
     
     @agent
@@ -29,7 +34,8 @@ class GameBuilderCrew:
         return Agent(
             config=self.agents_config['chief_qa_engineer_agent'],
             allow_delegation=True,
-            verbose=True
+            verbose=True,
+            llm=self.custom_llm
         )
     
 
@@ -37,7 +43,8 @@ class GameBuilderCrew:
     def code_task(self) -> Task:
         return Task(
             config=self.tasks_config['code_task'],
-            agent=self.senior_engineer_agent()
+            agent=self.senior_engineer_agent(),
+            output_file='generated_game.py' 
         )
 
     @task
