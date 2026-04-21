@@ -7,7 +7,7 @@ authors = ["Alejandro Medici <alejandro.medici@ibm.com>"]
 [tool.poetry.dependencies]
 python = ">=3.10.0,<3.12"
 crewai = "^0.63.6"
-python-dotenv = "1.0.0"
+python-dotenv = "1.2.2"
 
 [tool.pyright]
 # https://github.com/microsoft/pyright/blob/main/docs/configuration.md
